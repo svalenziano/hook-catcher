@@ -29,11 +29,11 @@ async function connect(config: ClientConfig = {}): Promise<Client> {
 
   try {
     await client.connect();
-    console.log("Successfully connected to the database.");
+    console.log("Successfully connected to the PostgreSQL database.");
     return client;
   } catch (error) {
     client = null;
-    console.error("Failed to connect to the database:", error);
+    console.error("Failed to connect to the PostgreSQL database:", error);
     throw error;
   }
 }

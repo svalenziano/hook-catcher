@@ -35,11 +35,11 @@ async function connect(
 
   try {
     await client.connect();
-    console.log("Successfully connected to the database.");
+    console.log("Successfully connected to MongoDB.");
     return client;
   } catch (error) {
     client = null;
-    console.error("Failed to connect to the database:", error);
+    console.error("Failed to connect to MongoDB:", error);
     throw error;
   }
 }

@@ -15,7 +15,7 @@ const configSchema = z.object({
   POSTGRES_NAME: z.string(),
   POSTGRES_USER: z.string(),
   POSTGRES_PASSWORD: z.string(),
-  POSTGRES_SSL: z.coerce.boolean()
+  POSTGRES_SSL: z.string().transform(v => v.toLowerCase() === 'true')
 })
 
 const result = configSchema.safeParse(process.env)
