@@ -1,6 +1,7 @@
 name: hookcatcher
 
 services:
+
   server:
     build: .
     ports:
@@ -14,6 +15,7 @@ services:
     depends_on:
       - mongodb
       - postgres
+
   mongodb:
     image: mongo:8.0-noble
     container_name: mongodb
@@ -25,6 +27,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
     volumes:
       - mongo_data:/etc/data/mongo
+
   postgres:
     image: postgres:17
     environment:
@@ -36,6 +39,21 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./src/db_connections/postgres/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+  
+  # https://opentelemetry.io/docs/collector/install/docker/
+  otel-collector:
+    image: otel/opentelemetry-collector
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+
 volumes:
   mongo_data:
   pgdata:

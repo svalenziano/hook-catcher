@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc && tsc-alias",
-    "start": "node dist/index.js"
+    "start": "node --require ./dist/instrumentation.js dist/index.js"     
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.73.0",
+    "@opentelemetry/sdk-metrics": "^2.7.0",
+    "@opentelemetry/sdk-node": "^0.215.0",
+    "@opentelemetry/sdk-trace-node": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
