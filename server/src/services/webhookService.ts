@@ -18,12 +18,12 @@ export async function captureRequest(
   const bin = await findBinById(binId);
 
   if (!bin) {
-    throw new Error("Bin not found.");
+    throw new Error("Bin not found");
   }
 
   // 2. Check if bin has expired
   if (bin.expires_at < new Date()) {
-    throw new Error("Bin has expired.");
+    throw new Error("Bin has expired");
   }
 
   // 3. Capture a single timestamp for consistency across both databases
