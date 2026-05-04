@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const configSchema = z.object({
+  MONGO_HOST: z.string(),
   MONGO_PORT: z.coerce.number(),
   MONGO_DB_NAME: z.string(),
   MONGO_USER: z.string(),
@@ -25,5 +26,5 @@ if (!result.success) {
 
 export const config = {
   ...result.data,
-  MONGO_URI: `mongodb://${result.data.MONGO_USER}:${result.data.MONGO_PASSWORD}@localhost:${result.data.MONGO_PORT}`,
+  MONGO_URI: `mongodb://${result.data.MONGO_USER}:${result.data.MONGO_PASSWORD}@${result.data.MONGO_HOST}:${result.data.MONGO_PORT}`,
 }
