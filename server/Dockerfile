@@ -24,7 +24,7 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "--require", "./dist/otel/instrumentation.js", "dist/index.js"]  
 
 # TEST STAGE
 ##########################################################
