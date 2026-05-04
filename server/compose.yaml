@@ -13,14 +13,14 @@ services:
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_DB: $DB_NAME
+      POSTGRES_DB: $POSTGRES_NAME
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
       - "$POSTGRES_PORT:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./src/db/schema.sql:/docker-entrypoint-
+      - ./src/db_connections/postgres/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
 volumes:
   mongo_data:
   pgdata:
