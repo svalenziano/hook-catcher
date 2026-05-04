@@ -5,7 +5,6 @@ dotenv.config()
 
 const configSchema = z.object({
   MONGO_PORT: z.coerce.number(),
-  MONGO_URI: z.string(),
   MONGO_DB_NAME: z.string(),
   MONGO_USER: z.string(),
   MONGO_PASSWORD: z.string(),
@@ -24,4 +23,7 @@ if (!result.success) {
   throw new Error(`Invalid environment config:\n${result.error.toString()}`)
 }
 
-export const config = result.data
+export const config = {
+  ...result.data,
+  MONGO_URI: `mongodb://${result.data.MONGO_USER}:${result.data.MONGO_PASSWORD}@localhost:${result.data.MONGO_PORT}`,
+}
