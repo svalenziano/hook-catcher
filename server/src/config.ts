@@ -15,6 +15,13 @@ const configSchema = z.object({
   POSTGRES_NAME: z.string(),
   POSTGRES_USER: z.string(),
   POSTGRES_PASSWORD: z.string(),
+  POSTGRES_SSL: z.coerce.boolean()
 })
 
-export const config = configSchema.parse(process.env)
+const result = configSchema.safeParse(process.env)
+
+if (!result.success) {
+  throw new Error(`Invalid environment config:\n${result.error.toString()}`)
+}
+
+export const config = result.data

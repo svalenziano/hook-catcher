@@ -1,4 +1,5 @@
 import { MongoClient, MongoClientOptions } from "mongodb";
+import { config } from '@/config'
 
 // Default connection configuration
 const defaultConfig: MongoClientOptions = {
@@ -8,9 +9,9 @@ const defaultConfig: MongoClientOptions = {
   retryWrites: true,
 };
 
-const defaultUri: string = process.env.MONGO_URI ?? "mongodb://localhost:27017";
+const defaultUri: string = config.MONGO_URI;
 
-const MONGO_DB_NAME = process.env.MONGO_DB_NAME ?? "hookcatcher";
+const MONGO_DB_NAME = config.MONGO_DB_NAME;
 const MONGO_COLLECTION_NAME = "request_payloads";
 
 let client: MongoClient | null = null;
