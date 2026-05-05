@@ -1,14 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { env } from "@/config/env";
-import { Link } from "react-router-dom";
-import CopyButton from "./Button_Copy";
-import type { PersistedBin } from "./schema";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { env } from "@/config/env"
+import { Link } from "react-router-dom"
+import CopyButton from "./Button_Copy"
+import type { PersistedBin } from "./schema"
 
 export type CreateBinResult =
   | { status: "success"; bin: PersistedBin }
@@ -27,12 +22,12 @@ export function CreateBinResultModal({
     return null
   }
 
-  const isSuccess = result.status === "success";
-  const binId = isSuccess ? result.bin.id : null;
-  const title = isSuccess ? "Created" : "Failed to Create Bin";
-  const sendUrl = binId ? `/${binId}` : null;
-  const inspectUrl = binId ? `/bins/${binId}` : null;
-  const fullSendUrl = sendUrl ? `${env.API_URL}${sendUrl}` : null;
+  const isSuccess = result.status === "success"
+  const binId = isSuccess ? result.bin.id : ""
+  const title = isSuccess ? "Created" : "Failed to Create Bin"
+  const sendUrl = binId ? `/${binId}` : null
+  const inspectUrl = binId ? env.APP_URL + "/bins/" + binId : null
+  const webhookUrl = sendUrl ? env.API_WEBHOOK + "/" + binId : null
 
   return (
     <div
@@ -73,10 +68,10 @@ export function CreateBinResultModal({
               <p>
                 Your API URL is:{" "}
                 <span className="inline-flex items-center gap-1 rounded-sm bg-amber-200 px-1 text-black">
-                  <span>{fullSendUrl}</span>
-                  {fullSendUrl && (
+                  <span>{webhookUrl}</span>
+                  {webhookUrl && (
                     <CopyButton
-                      content={fullSendUrl}
+                      content={webhookUrl}
                       className="h-7 w-7 text-black hover:bg-black/10"
                     />
                   )}

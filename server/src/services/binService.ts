@@ -17,7 +17,7 @@ export async function createBin(): Promise<BinResponse> {
   const bin: Bin = await repoCreateBin(id);
 
   const inspectUrl = `/bins/${bin.id}`;
-  const sendUrl = `/${bin.id}`;
+  const sendUrl = `/api/webhook/${bin.id}`;
 
   return {
     bin,

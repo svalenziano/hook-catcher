@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Routes
 
-app.get("/health", (_req, res) => {
+app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
@@ -22,6 +22,6 @@ app.get("/health", (_req, res) => {
 app.use("/api/bins", binHandler);
 
 // Mount catch-all webhook route here
-app.use("/", webhookHandler);
+app.use("/api/webhook", webhookHandler);
 
 export default app;

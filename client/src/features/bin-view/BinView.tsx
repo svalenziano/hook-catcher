@@ -126,13 +126,13 @@ export default function BinView() {
 }
 
 function BasketInfoHeader({ bin }: { bin: BinWithRequests | null }) {
-  const basketUrl = env.API_URL + "/" + (bin && bin.bin.id)
+  const basketUrl = env.API_WEBHOOK + "/" + (bin && bin.bin.id)
 
   return (
     <section className="mx-auto max-w-4xl p-3">
       <h1 className="text-2xl font-bold">Bin: {bin && bin.bin.id}</h1>
       <p>
-        Bin URL: {basketUrl}
+        Send webhooks to: {basketUrl}
         {basketUrl && <CopyButton content={basketUrl} />}
       </p>
       <p>Request Count: {bin && bin.requests.length}</p>

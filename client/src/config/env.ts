@@ -16,7 +16,7 @@ const PREFIX = "VITE_APP_"
 const createEnv = () => {
   const EnvSchema = z.object({
     API_URL: z.string(),
-    APP_URL: z.string().optional().default("http://localhost:3000"),
+    APP_URL: z.string(),
     // ENABLE_API_MOCKING: z
     //   .string()
     //   .refine((s) => s === 'true' || s === 'false')
@@ -51,7 +51,16 @@ ${Object.entries(parsedEnv.error.flatten().fieldErrors)
   return parsedEnv.data
 }
 
-export const env = createEnv()
+const parsed = createEnv()
 
-export const backendUrl = new URL(env.API_URL)
-export const backendOrigin = backendUrl.origin
+export const env = {
+  ...parsed,
+  API_BASE: new URL(`${parsed.API_URL}/api/`),
+  API_WEBHOOK: new URL(`${parsed.API_URL}/api/webhook`),
+  API_BINS: new URL(`${parsed.API_URL}/api/bins`),
+  API_WEBSOCKET: new URL(`${parsed.API_URL}/api/ws`),
+
+}
+
+// console.log("Loaded `.env`:")
+// console.log(env)

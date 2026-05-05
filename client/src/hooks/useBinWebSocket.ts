@@ -21,10 +21,11 @@ type UseBinWebSocketOptions = {
 }
 
 function getBinWebSocketUrl(binId: string): string {
-  const apiUrl = new URL(env.API_URL)
-  const protocol = apiUrl.protocol === "https:" ? "wss:" : "ws:"
+  const ws = env.API_WEBSOCKET
+  const protocol = ws.protocol === "https:" ? "wss:" : "ws:"
+  const endpoint = `${protocol}//${ws.host}${ws.pathname}?binId=${encodeURIComponent(binId)}`
+  return endpoint
 
-  return `${protocol}//${apiUrl.host}/ws?binId=${encodeURIComponent(binId)}`
 }
 
 function normalizeRequest(

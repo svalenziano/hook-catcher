@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import type { PersistedBin } from "./schema";
+import { env } from "@/config/env.ts"
 
 type BinListProps = {
   bins: PersistedBin[];
@@ -20,7 +21,7 @@ export function BinList({ bins }: BinListProps) {
             <ul className="space-y-3">
               {bins.map((bin) => {
                 const inspectUrl = `/bins/${bin.id}`;
-                const fullInspectUrl = `http://localhost:5173${inspectUrl}`;
+                const fullInspectUrl = `${env.APP_URL}/bins/${bin.id}`;
                 const createdDate = bin.created_at.toLocaleDateString();
                 const expiresDate = bin.expires_at.toLocaleDateString();
 
