@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc && tsc-alias",
-    "start": "node --require ./dist/instrumentation.js dist/index.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",

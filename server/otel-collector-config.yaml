@@ -8,15 +8,29 @@ receivers:
       http:
         endpoint: 0.0.0.0:4318
 
+processors:
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+
 exporters:
+  # SEND TO STDOUT
   debug:
     verbosity: detailed
+  
+  # SEND TO HONEYCOMB
+  otlp/honeycomb:
+    endpoint: "api.honeycomb.io:443"
+    headers:
+      x-honeycomb-team: "${HONEYCOMB_API_KEY}"
+      x-honeycomb-dataset: "sv-hooks-catcher"
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug]
+      processors: [batch]
+      exporters: [debug, otlp/honeycomb]
     metrics:
       receivers: [otlp]
       exporters: [debug]

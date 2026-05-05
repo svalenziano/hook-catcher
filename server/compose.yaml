@@ -8,11 +8,13 @@ services:
       - "3000:3000"
     env_file: .env
     environment:
-      MONGO_HOST: mongodb
-      MONGO_PORT: 27017
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      # inside Docker: use service name, not localhost
+      MONGO_HOST: mongodb
+      POSTGRES_HOST: postgres  
+      # inside Docker: use standard ports
+      POSTGRES_PORT: 5432
+      MONGO_PORT: 27017
     depends_on:
       - mongodb
       - postgres
@@ -45,6 +47,9 @@ services:
   # https://opentelemetry.io/docs/collector/install/docker/
   otel-collector:
     image: otel/opentelemetry-collector
+    env_file: .env
+    environment:
+      HONEYCOMB_API_KEY: ${HONEYCOMB_API_KEY}
     volumes:
       - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
     ports:
