@@ -26,13 +26,15 @@ TBD: should this be changed to acommodate `docker compose up --build`?
    The server will start on `http://localhost:3000` (or whatever `PORT` is set to in `.env`). Nodemon will watch for file changes and restart automatically.
 
 ### Build and run the application
-Application, Databases, and OTel Collector will run.
-
-Not yet implemented: re-build the frontend
-
-TBD: how to develop the frontend / backend without having to `docker compose down` and then `docker compose up --build`?
-```
+Start the backend services: Application, Databases, and OTel Collector
+```bash
 docker compose up --build
+```
+
+Start the front-end
+```bash
+cd client
+npm run dev
 ```
 
 Looking for the old (manual) database setup instructions?  They are [here](./docs/db_manual_setup.md).
@@ -44,6 +46,7 @@ Looking for the old (manual) database setup instructions?  They are [here](./doc
 | `npm run dev`   | Start dev server with nodemon + ts-node |
 | `npm run build` | Compile TypeScript to `dist/`           |
 | `npm start`     | Run the compiled JS from `dist/`        |
+
 
 ### Backend Structure
 
@@ -81,3 +84,6 @@ psql -c "SELECT current_user;"
 # set a new password (be sure to write it down!)
 psql -c "ALTER USER <username> PASSWORD '<new_passowrd>';"
 ```
+
+### CORS warning
+CORS is currently configured to allow ALL requests.  Todo: implement narrower CORS policy.

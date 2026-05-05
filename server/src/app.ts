@@ -8,7 +8,7 @@ import webhookHandler from "./handlers/webhookHandler";
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors());  // WARNING: CORS POLICY IS WIDE OPEN
 app.use(morgan("dev"));
 app.use(express.json());
 
