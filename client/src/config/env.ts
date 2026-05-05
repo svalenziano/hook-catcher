@@ -15,6 +15,8 @@ const createEnv = () => {
   const EnvSchema = z.object({
     VITE_API_URL: z.string(),
     VITE_APP_URL: z.string(),
+    VITE_OTEL_COLLECTOR_URL: z.string(),
+    VITE_OTEL_SERVICE_NAME: z.string(),
     // ENABLE_API_MOCKING: z
     //   .string()
     //   .refine((s) => s === 'true' || s === 'false')
@@ -47,7 +49,8 @@ export const env = {
   API_WEBHOOK: new URL(`${parsed.VITE_API_URL}/api/webhook`),
   API_BINS: new URL(`${parsed.VITE_API_URL}/api/bins`),
   API_WEBSOCKET: new URL(`${parsed.VITE_API_URL}/api/ws`),
+  PRODUCTION: import.meta.env.PROD,
 }
 
-// console.log("Loaded `.env`:")
+console.log("Loaded environment using dotenv.")
 // console.log(env)
