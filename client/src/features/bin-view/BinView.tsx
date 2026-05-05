@@ -142,7 +142,7 @@ function BasketInfoHeader({ bin }: { bin: BinWithRequests | null }) {
 
 function RequestList({ requests }: { requests: RequestDocument[] | null }) {
   if (!requests || requests.length === 0) return <EmptyRequestList />
-  console.log(requests)
+  // console.log(requests)
 
   return (
     <section className="mx-auto grid max-w-4xl grid-cols-[repeat(auto-fill,minmax(28rem,1fr))] items-start">

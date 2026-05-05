@@ -49,5 +49,5 @@ export const env = {
   API_WEBSOCKET: new URL(`${parsed.VITE_API_URL}/api/ws`),
 }
 
-console.log("Loaded `.env`:")
-console.log(env)
+// console.log("Loaded `.env`:")
+// console.log(env)
