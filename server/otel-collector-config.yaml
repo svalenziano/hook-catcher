@@ -1,4 +1,9 @@
-# From what I can ctell, you can safely ignore the `file_format` warning
+file_format: "1.0"
+
+resource:
+  attributes:
+    - name: service.name
+      value: ${OTEL_SERVICE_NAME}
 
 receivers:
   otlp:
@@ -22,8 +27,8 @@ exporters:
   otlp/honeycomb:
     endpoint: "api.honeycomb.io:443"
     headers:
-      x-honeycomb-team: "${HONEYCOMB_API_KEY}"
-      x-honeycomb-dataset: "sv-hooks-catcher"
+      x-honeycomb-team: ${HONEYCOMB_API_KEY}
+      x-honeycomb-dataset: ${HONEYCOMB_METRICS_DATASET}
 
 service:
   pipelines:
