@@ -4,6 +4,9 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const configSchema = z.object({
+  SERVER_PORT: z.coerce.number(),
+  OTEL_SERVICE_NAME: z.string(),
+
   MONGO_HOST: z.string(),
   MONGO_PORT: z.coerce.number(),
   MONGO_DB_NAME: z.string(),
