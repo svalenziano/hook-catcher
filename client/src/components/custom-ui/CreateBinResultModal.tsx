@@ -26,7 +26,7 @@ export function CreateBinResultModal({
   const binId = isSuccess ? result.bin.id : ""
   const title = isSuccess ? "Created" : "Failed to Create Bin"
   const sendUrl = binId ? `/${binId}` : null
-  const inspectUrl = binId ? env.APP_URL + "/bins/" + binId : null
+  const inspectUrl = binId ? env.VITE_APP_URL + "/bins/" + binId : null
   const webhookUrl = sendUrl ? env.API_WEBHOOK + "/" + binId : null
 
   return (
