@@ -1,4 +1,4 @@
-import { config} from "@/config"
+import { config } from "@/env";
 import app from "./app";
 import wsManager from "./websockets/connectionManager";
 import http from "http";

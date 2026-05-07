@@ -25,7 +25,7 @@ HONEYCOMB_API_KEY=<redacted>
 
 #### Using environment in front-end code
 
-Configurations are loaded into a single config module that is subsequently imported into any other modules that need config info.  The module throws an error if any of the config fails zod validation.  Additional config values (e.g. specific endpoints) are created before exporting them
+Configurations are loaded into a single config module that is subsequently imported into any other modules that need config info.  The module throws an error if any of the config fails zod validation.  Additional config values (e.g. specific endpoints) are created before making the object available to other modules.
 
 .env.ts
 ```ts

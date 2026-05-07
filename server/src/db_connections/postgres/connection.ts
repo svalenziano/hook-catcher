@@ -1,5 +1,5 @@
 import { Client, ClientConfig } from "pg";
-import { config } from "@/config"
+import { config } from "@/env";
 
 // Default connection configuration
 const defaultConfig: ClientConfig = {
