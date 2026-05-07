@@ -17,12 +17,6 @@ const createEnv = () => {
     VITE_APP_URL: z.string(),
     VITE_OTEL_COLLECTOR_URL: z.string(),
     VITE_OTEL_SERVICE_NAME: z.string(),
-    // ENABLE_API_MOCKING: z
-    //   .string()
-    //   .refine((s) => s === 'true' || s === 'false')
-    //   .transform((s) => s === 'true')
-    //   .optional(),
-    // APP_MOCK_API_PORT: z.string().optional().default('8080'),
   })
 
   const parsedEnv = EnvSchema.safeParse(import.meta.env)

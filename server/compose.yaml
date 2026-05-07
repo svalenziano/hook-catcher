@@ -9,7 +9,7 @@ services:
     env_file: .env
     environment:
       OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:?error}-server"
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317 # otel http receiver
       # inside Docker: use service name, not localhost
       MONGO_HOST: mongodb
       POSTGRES_HOST: postgres  
@@ -37,7 +37,9 @@ services:
 
   postgres:
     image: postgres:17
+    env_file: .env
     environment:
+      OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:?error}-postgres"
       POSTGRES_DB: $POSTGRES_NAME
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
