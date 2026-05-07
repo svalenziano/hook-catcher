@@ -23,9 +23,10 @@ HONEYCOMB_API_KEY=<redacted>
 
 .env.production and .env.development modify / add environment for their respective environments (not yet implemented).
 
+#### Using environment in front-end code
+
 Configurations are loaded into a single config module that is subsequently imported into any other modules that need config info.  The module throws an error if any of the config fails zod validation.  Additional config values (e.g. specific endpoints) are created before exporting them
 
-#### Using environment in front-end code
 .env.ts
 ```ts
 // src/config/env.ts
@@ -108,7 +109,9 @@ Use the environment in the server application similarly to the frontend: use zod
 ```
 
 #### Using environment in Docker
-A necessary, modify the environment in `compose.yaml` and throw an error if any required variables are missing using the `${MYVAR:?error}` syntax
+A necessary, modify the environment in `compose.yaml` and throw an error if any required variables are missing using the `${MYVAR:?error}` syntax.  Env vars that were suitable for non-Docker development are overridden for Docker.
+
+
 ```yaml
 name: hookcatcher
 
