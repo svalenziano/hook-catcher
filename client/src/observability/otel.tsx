@@ -39,7 +39,6 @@ export default function Observability(){
         instrumentations: [getWebAutoInstrumentations({
           '@opentelemetry/instrumentation-xml-http-request': configDefaults,
           '@opentelemetry/instrumentation-fetch': configDefaults,
-          '@opentelemetry/instrumentation-document-load': configDefaults,
         })],
       });
       sdk.start();
