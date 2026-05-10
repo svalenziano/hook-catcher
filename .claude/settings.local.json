@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//var/log/mongodb/**)",
-      "Read(//var/lib/mongodb/**)"
-    ]
-  }
-}
