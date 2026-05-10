@@ -1,3 +1,6 @@
+import { config } from "@/env";
+import { SpanStatusCode, trace, type Span } from "@opentelemetry/api";
+import opentelemetry from "@opentelemetry/api";
 import { Router, Request, Response } from "express";
 import {
   createBin,
@@ -8,6 +11,11 @@ import {
 
 const router = Router();
 
+const tracer = opentelemetry.trace.getTracer(
+  "binHandler",
+  config.OTEL_INSTRUMENTATION_SCOPE_VERSION,
+);
+
 /**
  * POST /api/bins - Creates a new bin.
  * Calls the bin service to generate a unique bin ID, persist it to the database,
@@ -16,13 +24,23 @@ const router = Router();
  * @returns 500 - If bin creation fails.
  */
 router.post("/", async (_req: Request, res: Response) => {
-  try {
-    const binResponse = await createBin();
-    res.status(201).json(binResponse);
-  } catch (error) {
-    console.error("Failed to create bin.", error);
-    res.status(500).json({ error: "Failed to create bin." });
-  }
+  return tracer.startActiveSpan("createBin", async (span: Span) => {
+    try {
+      const binResponse = await createBin();
+      res.status(201).json(binResponse);
+      span.setAttribute("app.createBin", "success");
+    } catch (error) {
+      console.error("Failed to create bin.", error);
+      res.status(500).json({ error: "Failed to create bin." });
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: "Failed to create bin.",
+      });
+      span.setAttribute("app.createBin", "fail");
+    } finally {
+      span.end();
+    }
+  });
 });
 
 export default router;
