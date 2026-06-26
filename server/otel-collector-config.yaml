@@ -1,0 +1,50 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:                                                             
+            - "http://localhost:*"
+            - "http://127.0.0.1:*"
+            - ${env:CORS_ALLOWED_ORIGIN}
+
+processors:
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+  resource:
+    attributes:
+      - key: service.name
+        value: ${env:OTEL_SERVICE_NAME}
+        action: insert   # Don't overwrite if it already exists
+
+exporters:
+  # SEND TO STDOUT
+  debug:
+    verbosity: detailed
+  
+  # SEND TO HONEYCOMB
+  otlp/honeycomb:
+    endpoint: "api.honeycomb.io:443"
+    timeout: 10s
+    headers:
+      x-honeycomb-team: ${env:HONEYCOMB_API_KEY}
+      x-honeycomb-dataset: ${env:HONEYCOMB_METRICS_DATASET}
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [debug, otlp/honeycomb]
+    metrics:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [debug]

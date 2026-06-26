@@ -11,31 +11,15 @@
 
 import * as z from "zod"
 
-const PREFIX = "VITE_APP_"
-
 const createEnv = () => {
   const EnvSchema = z.object({
-    API_URL: z.string(),
-    APP_URL: z.string().optional().default("http://localhost:3000"),
-    // ENABLE_API_MOCKING: z
-    //   .string()
-    //   .refine((s) => s === 'true' || s === 'false')
-    //   .transform((s) => s === 'true')
-    //   .optional(),
-    // APP_MOCK_API_PORT: z.string().optional().default('8080'),
+    VITE_API_URL: z.string(),
+    VITE_APP_URL: z.string(),
+    VITE_OTEL_COLLECTOR_URL: z.string(),
+    VITE_OTEL_SERVICE_NAME: z.string(),
   })
 
-  const envVars = Object.entries(import.meta.env).reduce<
-    Record<string, string>
-  >((acc, curr) => {
-    const [key, value] = curr
-    if (key.startsWith(PREFIX)) {
-      acc[key.replace(PREFIX, "")] = value
-    }
-    return acc
-  }, {})
-
-  const parsedEnv = EnvSchema.safeParse(envVars)
+  const parsedEnv = EnvSchema.safeParse(import.meta.env)
 
   if (!parsedEnv.success) {
     throw new Error(
@@ -51,7 +35,16 @@ ${Object.entries(parsedEnv.error.flatten().fieldErrors)
   return parsedEnv.data
 }
 
-export const env = createEnv()
+const parsed = createEnv()
 
-export const backendUrl = new URL(env.API_URL)
-export const backendOrigin = backendUrl.origin
+export const env = {
+  ...parsed,
+  API_BASE: new URL(`${parsed.VITE_API_URL}/api/`),
+  API_WEBHOOK: new URL(`${parsed.VITE_API_URL}/api/webhook`),
+  API_BINS: new URL(`${parsed.VITE_API_URL}/api/bins`),
+  API_WEBSOCKET: new URL(`${parsed.VITE_API_URL}/api/ws`),
+  PRODUCTION: import.meta.env.PROD,
+}
+
+console.log("Loaded environment using dotenv.")
+// console.log(env)

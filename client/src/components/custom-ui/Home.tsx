@@ -1,62 +1,62 @@
-import { useEffect, useState } from "react";
-import { env } from "@/config/env";
-import { NewBinCreator } from "./NewBinCreator";
-import { CreateBinResultModal } from "./CreateBinResultModal";
-import type { CreateBinResult } from "./CreateBinResultModal";
-import { BinList } from "./BinList";
-import NavBar from "./NavBar";
+import { useEffect, useState } from "react"
+import { env } from "@/config/env"
+import { NewBinCreator } from "./NewBinCreator"
+import { CreateBinResultModal } from "./CreateBinResultModal"
+import type { CreateBinResult } from "./CreateBinResultModal"
+import { BinList } from "./BinList"
+import NavBar from "./NavBar"
 import {
   BinApiResponseSchema,
   PersistedBinsSchema,
   type PersistedBin,
-} from "./schema";
-
-const BINS_API_ENDPOINT = `${env.API_URL}/api/bins`;
+} from "./schema"
 
 export function Home() {
-  const [bins, setBins] = useState<PersistedBin[]>([]);
-  const [createResult, setCreateResult] = useState<CreateBinResult | null>(
-    null
-  );
+  const [bins, setBins] = useState<PersistedBin[]>([])
+  const [createResult, setCreateResult] = useState<CreateBinResult | null>(null)
 
   useEffect(() => {
     async function fetchBins() {
       try {
-        const response = await fetch(BINS_API_ENDPOINT, { cache: "no-store" });
+        const response = await fetch(env.API_BINS, { cache: "no-store" })
 
         if (!response.ok) {
-          throw new Error("Fetch bins request failed");
+          throw new Error("Fetch bins request failed")
         }
 
-        const data = await response.json();
-        const parsedBins = PersistedBinsSchema.parse(data);
-        setBins([...parsedBins].sort((a, b) => b.created_at.getTime() - a.created_at.getTime()));
+        const data = await response.json()
+        const parsedBins = PersistedBinsSchema.parse(data)
+        setBins(
+          [...parsedBins].sort(
+            (a, b) => b.created_at.getTime() - a.created_at.getTime()
+          )
+        )
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }
 
-    fetchBins();
+    fetchBins()
   }, [])
 
   const onCreateBin = async () => {
     try {
-      const response = await fetch(BINS_API_ENDPOINT, { method: "POST" });
+      const response = await fetch(env.API_BINS, { method: "POST" })
 
       if (!response.ok) {
-        throw new Error("Create bin request failed");
+        throw new Error("Create bin request failed")
       }
 
-      const data = await response.json();
-      const createBinResponse = BinApiResponseSchema.parse(data);
-      const createdBin = createBinResponse.bin;
+      const data = await response.json()
+      const createBinResponse = BinApiResponseSchema.parse(data)
+      const createdBin = createBinResponse.bin
 
-      setBins((currentBins) => [createdBin, ...currentBins]);
-      setCreateResult({ status: "success", bin: createdBin });
+      setBins((currentBins) => [createdBin, ...currentBins])
+      setCreateResult({ status: "success", bin: createdBin })
     } catch (err) {
-      setCreateResult({ status: "error" });
+      setCreateResult({ status: "error" })
     }
-  };
+  }
 
   return (
     <>
@@ -68,7 +68,7 @@ export function Home() {
         onClose={() => setCreateResult(null)}
       />
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

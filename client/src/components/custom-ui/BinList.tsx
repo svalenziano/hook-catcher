@@ -1,16 +1,17 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import type { PersistedBin } from "./schema";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Link } from "react-router-dom"
+import type { PersistedBin } from "./schema"
+import { env } from "@/config/env.ts"
 
 type BinListProps = {
-  bins: PersistedBin[];
-};
+  bins: PersistedBin[]
+}
 
 export function BinList({ bins }: BinListProps) {
   return (
     <section className="w-full px-4 pb-8 sm:px-6 lg:px-8">
       <Card className="mx-auto w-full max-w-5xl rounded-[2rem] border bg-card shadow-sm">
-        <CardHeader className="px-6 pb-3 pt-8 sm:px-10">
+        <CardHeader className="px-6 pt-8 pb-3 sm:px-10">
           <h2 className="text-2xl font-semibold tracking-tight">Bins</h2>
         </CardHeader>
         <CardContent className="px-6 pb-8 sm:px-10">
@@ -19,10 +20,10 @@ export function BinList({ bins }: BinListProps) {
           ) : (
             <ul className="space-y-3">
               {bins.map((bin) => {
-                const inspectUrl = `/bins/${bin.id}`;
-                const fullInspectUrl = `http://localhost:5173${inspectUrl}`;
-                const createdDate = bin.created_at.toLocaleDateString();
-                const expiresDate = bin.expires_at.toLocaleDateString();
+                const inspectUrl = `/bins/${bin.id}`
+                const fullInspectUrl = `${env.VITE_APP_URL}/bins/${bin.id}`
+                const createdDate = bin.created_at.toLocaleDateString()
+                const expiresDate = bin.expires_at.toLocaleDateString()
 
                 return (
                   <li
@@ -56,12 +57,12 @@ export function BinList({ bins }: BinListProps) {
                       </span>
                     </p>
                   </li>
-                );
+                )
               })}
             </ul>
           )}
         </CardContent>
       </Card>
     </section>
-  );
+  )
 }

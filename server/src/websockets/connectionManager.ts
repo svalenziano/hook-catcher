@@ -5,7 +5,7 @@ import { BroadcastRequest } from "../types";
 const binClients = new Map<string, Set<WebSocket>>();
 
 function init(server: Server): void {
-  const wsServer = new WebSocketServer({ server, path: "/ws" });
+  const wsServer = new WebSocketServer({ server, path: "/api/ws" });
 
   wsServer.on(
     "connection",

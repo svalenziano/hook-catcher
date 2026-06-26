@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const NANOID_ID_PATTERN = /^[A-Za-z0-9_-]{10}$/;
-const SEND_URL_PATTERN = /^\/[A-Za-z0-9_-]{10}$/;
+const SEND_URL_PATTERN = /^\/api\/webhook\/[A-Za-z0-9_-]{10}$/;
 const INSPECT_URL_PATTERN = /^\/bins\/[A-Za-z0-9_-]{10}$/;
 
 export const PersistedBinSchema = z.object({
@@ -14,7 +14,7 @@ export const PersistedBinSchema = z.object({
 
 export const BinSchema = PersistedBinSchema.extend({
   sendUrl: z.string().refine((value) => SEND_URL_PATTERN.test(value), {
-    message: "sendUrl must match /{id}",
+    message: "sendUrl must match /api/webhook/{id}",
   }),
   inspectUrl: z.string().refine((value) => INSPECT_URL_PATTERN.test(value), {
     message: "inspectUrl must match /bins/{id}",
@@ -27,7 +27,7 @@ export const BinsSchema = z.array(BinSchema);
 export const BinApiResponseSchema = z.object({
   bin: PersistedBinSchema,
   sendUrl: z.string().refine((value) => SEND_URL_PATTERN.test(value), {
-    message: "sendUrl must match /{id}",
+    message: "sendUrl must match /api/webhook/{id}",
   }),
   inspectUrl: z.string().refine((value) => INSPECT_URL_PATTERN.test(value), {
     message: "inspectUrl must match /bins/{id}",

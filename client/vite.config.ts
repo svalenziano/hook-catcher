@@ -10,12 +10,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     proxy: {
-      "/api": backendTarget,
-      "/ws": {
+      "/api": {
         target: backendTarget,
         ws: true,
       },
-      "^/[A-Za-z0-9_-]{10}$": backendTarget,
     },
   },
   resolve: {

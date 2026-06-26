@@ -1,14 +1,15 @@
 import { Client, ClientConfig } from "pg";
+import { config } from "@/env";
 
 // Default connection configuration
 const defaultConfig: ClientConfig = {
-  host: process.env.DB_HOST ?? "localhost",
-  port: Number(process.env.DB_PORT) || 5432,
-  database: process.env.DB_NAME ?? "hookcatcher",
-  user: process.env.DB_USER ?? "postgres",
-  password: process.env.DB_PASSWORD ?? "",
+  host: config.POSTGRES_HOST,
+  port: config.POSTGRES_PORT,
+  database: config.POSTGRES_NAME,
+  user: config.POSTGRES_USER,
+  password: config.POSTGRES_PASSWORD,
   connectionTimeoutMillis: 5000,
-  ssl: false, // todo: fix ssl settings for deployed app
+  ssl: config.POSTGRES_SSL, // todo: fix ssl settings for deployed app
 };
 
 let client: Client | null = null;
@@ -28,11 +29,11 @@ async function connect(config: ClientConfig = {}): Promise<Client> {
 
   try {
     await client.connect();
-    console.log("Successfully connected to the database.");
+    console.log("Successfully connected to the PostgreSQL database.");
     return client;
   } catch (error) {
     client = null;
-    console.error("Failed to connect to the database:", error);
+    console.error("Failed to connect to the PostgreSQL database:", error);
     throw error;
   }
 }
